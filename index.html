@@ -9,13 +9,196 @@
 
 <script src="js/jquery.min.js"></script>
 <script src="js/amazeui.min.js"></script>
-<title>共享纸巾</title>
- 
+<style>
+    input::-webkit-input-placeholder {
+        /* placeholder颜色  */
+        color: #fff;
+    }
+    .goBack{
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        text-align: center;
+        color: #03a9f3;
+        z-index: 1100;
+        font-size: 14px;
+    }
+    .goTo{
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        text-align: center;
+        color: #03a9f3;
+        z-index: 1100;
+        font-size: 14px;
+    }
+    li {
+        list-style-type:none;
+    }
+    aside ul{
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+    }
+    aside ul li{
+        display: inline-table;
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        margin: 5px 5px;
+        background-color: white;
+    }
+    aside{
+        margin-bottom: 55px;
+        width: 100%;
+        padding: 0;
+    }
+    .pagination .active{
+        color: #03a9f3!important;
+    }
+    .pagination .disabled{
+        color: #C3C3C3!important;
+    }
+</style>
+    <title>
+共享纸巾
+</title>
+    
+    
+    <style>
+        body{
+            background-color: #EDF1F5;
+        }
+        .tip{
+            display: none;
+            height: 45px;
+            width: 100%;
+            position: fixed;
+            bottom:10%;
+            z-index:99999;
+        }
+        .tip_box{
+            margin: 0 auto;
+            text-align: center;
+        }
+        .tip_font{
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .navFont{
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-top: -10px;
+        }
+        .navIcon{
+            font-size: 24px;
+        }
+        .navWrap{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 45px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+        .navWrap div{
+            margin-top: -3px;
+        }
+        .navClick{
+            color: #06C1AE!important;
+        }
+        .navClickLog{
+            color: #888;
+        }
+        a{
+            color: #666666;
+        }
+        .am-modal-dialog {
+            border-radius: 5px;
+        }
+    </style>
+    <div class="tip">
+        <div class="tip_box">
+            <span class="tip_font"></span>
+        </div>
+    </div>
+    <script>
+        //     弹出提示
+        function tip(font){
+            $(".tip_font").html(font);
+            $(".tip").fadeIn();
+            setTimeout(function(){
+                $(".tip").fadeOut();
+            },2000)
+        }
+        //重置
+        $(".reset").click(function () {
+            $(":text").val("");
+            $("select").find("option").eq(0).val(0);
+        });
+        function setValue(name,value){
+            var first = name.substr(0,1), input, i = 0, val;
+            if(value === "") return;
+            if("#" === first || "." === first){
+                input = $(name);
+            } else {
+                input = $("[name='" + name + "']");
+            }
+
+            if(input.eq(0).is(":radio")) { //单选按钮
+                input.filter("[value='" + value + "']").each(function(){this.checked = true});
+            } else if(input.eq(0).is(":checkbox")) { //复选框
+                if(!$.isArray(value)){
+                    val = new Array();
+                    val[0] = value;
+                } else {
+                    val = value;
+                }
+                for(i = 0, len = val.length; i < len; i++){
+                    input.filter("[value='" + val[i] + "']").each(function(){this.checked = true});
+                }
+            } else {  //其他表单选项直接设置值
+                input.val(value);
+            }
+        }
+    </script>
 </head>
 <body>
 
+
+<style>
+    body{
+        margin: 0px;
+        padding: 0px;
+        background-color:#fff;
+    }
+    .ui-font-wrap{
+        color: white;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+    @media (max-width:640px){
+        .ui-font-wrap img{
+            height: 700px;
+        }
+    }
+    @media (max-width:480px){
+        .ui-font-wrap img{
+            height: 600px;
+        }
+    }
+    @media (max-width:320px){
+        .ui-font-wrap img{
+            height: 500px;
+        }
+    }
+</style>
 <div class="ui-font-wrap">
-    <img src="icon-5.png" onclick="openScan();"/>
+    <img src="icon5" onclick="openScan();"/>
 </div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
@@ -51,3 +234,4 @@
 
 </body>
 </html>
+
