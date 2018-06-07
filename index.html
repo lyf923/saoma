@@ -1,236 +1,73 @@
-<!DOCTYPE html>
-<html class="cn">
+<html>
 <head>
-    <meta charset="UTF-8">
-<meta name="viewport"
-      content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
-<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-<link rel="stylesheet" href="css/amazeui.min.css">
-
-<script src="js/jquery.min.js"></script>
-<script src="js/amazeui.min.js"></script>
-<style>
-    input::-webkit-input-placeholder {
-        /* placeholder颜色  */
-        color: #fff;
-    }
-    .goBack{
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        text-align: center;
-        color: #03a9f3;
-        z-index: 1100;
-        font-size: 14px;
-    }
-    .goTo{
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        text-align: center;
-        color: #03a9f3;
-        z-index: 1100;
-        font-size: 14px;
-    }
-    li {
-        list-style-type:none;
-    }
-    aside ul{
-        margin: 0 auto;
-        padding: 0;
-        text-align: center;
-    }
-    aside ul li{
-        display: inline-table;
-        height: 30px;
-        line-height: 30px;
-        width: 30px;
-        margin: 5px 5px;
-        background-color: white;
-    }
-    aside{
-        margin-bottom: 55px;
-        width: 100%;
-        padding: 0;
-    }
-    .pagination .active{
-        color: #03a9f3!important;
-    }
-    .pagination .disabled{
-        color: #C3C3C3!important;
-    }
-</style>
-    <title>
-共享纸巾
-</title>
-    
-    
-    <style>
-        body{
-            background-color: #EDF1F5;
-        }
-        .tip{
-            display: none;
-            height: 45px;
-            width: 100%;
-            position: fixed;
-            bottom:10%;
-            z-index:99999;
-        }
-        .tip_box{
-            margin: 0 auto;
-            text-align: center;
-        }
-        .tip_font{
-            background: rgba(0,0,0,0.5);
-            color: white;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        .navFont{
-            display: block;
-            font-size: 12px;
-            color: #888;
-            margin-top: -10px;
-        }
-        .navIcon{
-            font-size: 24px;
-        }
-        .navWrap{
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            height: 45px;
-            background-color: white;
-            border-top: 1px solid #eee;
-        }
-        .navWrap div{
-            margin-top: -3px;
-        }
-        .navClick{
-            color: #06C1AE!important;
-        }
-        .navClickLog{
-            color: #888;
-        }
-        a{
-            color: #666666;
-        }
-        .am-modal-dialog {
-            border-radius: 5px;
-        }
-    </style>
-    <div class="tip">
-        <div class="tip_box">
-            <span class="tip_font"></span>
-        </div>
-    </div>
-    <script>
-        //     弹出提示
-        function tip(font){
-            $(".tip_font").html(font);
-            $(".tip").fadeIn();
-            setTimeout(function(){
-                $(".tip").fadeOut();
-            },2000)
-        }
-        //重置
-        $(".reset").click(function () {
-            $(":text").val("");
-            $("select").find("option").eq(0).val(0);
-        });
-        function setValue(name,value){
-            var first = name.substr(0,1), input, i = 0, val;
-            if(value === "") return;
-            if("#" === first || "." === first){
-                input = $(name);
-            } else {
-                input = $("[name='" + name + "']");
-            }
-
-            if(input.eq(0).is(":radio")) { //单选按钮
-                input.filter("[value='" + value + "']").each(function(){this.checked = true});
-            } else if(input.eq(0).is(":checkbox")) { //复选框
-                if(!$.isArray(value)){
-                    val = new Array();
-                    val[0] = value;
-                } else {
-                    val = value;
-                }
-                for(i = 0, len = val.length; i < len; i++){
-                    input.filter("[value='" + val[i] + "']").each(function(){this.checked = true});
-                }
-            } else {  //其他表单选项直接设置值
-                input.val(value);
-            }
-        }
-    </script>
+  <base href="http://www.yubaohe.cn:80/">
+  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"
+        name="viewport" id="viewport"/>
+    <title>扫描二维码</title>
 </head>
 <body>
-
-
-<style>
-    body{
-        margin: 0px;
-        padding: 0px;
-        background-color:#fff;
-    }
-    .ui-font-wrap{
-        color: white;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-    }
-    @media (max-width:640px){
-        .ui-font-wrap img{
-            height: 700px;
-        }
-    }
-    @media (max-width:480px){
-        .ui-font-wrap img{
-            height: 600px;
-        }
-    }
-    @media (max-width:320px){
-        .ui-font-wrap img{
-            height: 500px;
-        }
-    }
-</style>
-<div class="ui-font-wrap">
-    <img src="images/icon5.png" onclick="openScan();"/>
-</div>
-<script type="text/javascript" src="js/jweixin-1.2.0.js"></script>
-<script type="text/javascript">
-    wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: "gh_0cc831c90bdf", // 必填，公众号的唯一标识
-        timestamp: "1528266049", // 必填，生成签名的时间戳
-        nonceStr: "aNqySqimf1wsfbha", // 必填，生成签名的随机串
-        signature: "4c251797afcd2fa95c43bed8d52222e59bcef626",// 必填，签名
-        jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
+<p id="">扫一扫</p>
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  /*
+   * 注意：
+   * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+   * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+   * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+   *
+   * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+   * 邮箱地址：weixin-open@qq.com
+   * 邮件主题：【微信JS-SDK反馈】具体问题
+   * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+   */
+  wx.config({
+    debug: false,
+    appId: 'wx4a97ddb21923710a',
+    timestamp: '1528349542714',
+    nonceStr: 'h8y8iiiLcF6BSaZ4',
+    signature: 'bc06c3ee6a9712c1cb9a9d802c4169e5e31155aa',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+      'scanQRCode'
+    ]
+  });
+  wx.ready(function () {
+    // 在这里调用 API
+    //调起微信扫一扫接口
+    wx.scanQRCode({
+      needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+      scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+      success: function (res) {
+        var res = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        //alert("已经成功扫描到设备信息，点击继续！");
+        checkChannel(res);
+      }
     });
+  });
+  wx.error(function (res){
+    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 
-    wx.ready(function(){
-        openScan();
-    });
+  });
 
-    function openScan()
-    {
-        wx.scanQRCode({
-            needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-            scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
-            success: function (res) {
-                //console.log(res);
-                //var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                window.location.href = result;
-            }
-        });
+  function checkChannel(res){
+    
+    var gprsNos=res.split("gprsNo=");
+    if (gprsNos.length>1){
+      //location.href="http://www.yubaohe.cn:80/custWeiXin/authorize?state=3&gprsNo="+gprsNos[1];
+      if ("1"=="1"){
+        location.href=res;
+      }else if("1"=="3") {//充值扫一扫
+        location.href="http://www.yubaohe.cn:80/custWeiXin/toReCharge?way=3&prodNo="+gprsNos[1]+"&bizNo="+"B100000";
+      }
+    }else {
+      alert("未知设备，请重试！");
     }
 
+
+  }
 </script>
-
-
+<body>
 
 </body>
 </html>
